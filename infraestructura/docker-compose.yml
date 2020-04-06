@@ -1,0 +1,24 @@
+version: '3.7'
+
+services:
+  mysql:
+    container_name: db_oficina
+    restart: always
+    image: mariadb
+    environment:
+      MYSQL_ROOT_PASSWORD: '123456'
+    ports:
+      - "3306:3306"
+    volumes:
+      - ../db/oficina_subasta.sql:/docker-entrypoint-initdb.d/oficina_subasta.sql
+  back_oficina:
+    container_name: webserver
+    build: .
+    depends_on:
+      - mysql
+    volumes:
+      - type: bind
+        source: ../
+        target: /app
+    ports: 
+      - "80:8083"
