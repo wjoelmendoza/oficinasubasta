@@ -20,7 +20,7 @@ USE `oficina_subasta` ;
 -- -----------------------------------------------------
 -- Table `oficina_subasta`.`ROL`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `oficina_subasta`.`ROL` (
+CREATE TABLE IF NOT EXISTS `ROL` (
   `id_rol` INT UNSIGNED NOT NULL,
   `descripcion` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id_rol`),
@@ -31,23 +31,17 @@ CREATE TABLE IF NOT EXISTS `oficina_subasta`.`ROL` (
 -- -----------------------------------------------------
 -- Table `oficina_subasta`.`USUARIO`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `oficina_subasta`.`USUARIO` (
+CREATE TABLE IF NOT EXISTS `USUARIO` (
   `id_cliente` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nombres` VARCHAR(100) NOT NULL,
-  `apellidos` VARCHAR(100) NOT NULL,
-  `cui` VARCHAR(13) NULL,
-  `correo` VARCHAR(100) NOT NULL,
-  `direccion` VARCHAR(250) NOT NULL,
+  `nombres` VARCHAR(250) NOT NULL,
   `fecha_vencimiento` DATE NULL,
   `clave` VARCHAR(20) NOT NULL,
   `id_rol` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_cliente`),
-  UNIQUE INDEX `cui_UNIQUE` (`cui` ASC),
-  UNIQUE INDEX `correo_UNIQUE` (`correo` ASC),
   INDEX `fk_USUARIO_ROL1_idx` (`id_rol` ASC),
   CONSTRAINT `fk_USUARIO_ROL1`
     FOREIGN KEY (`id_rol`)
-    REFERENCES `oficina_subasta`.`ROL` (`id_rol`)
+    REFERENCES `mydb`.`ROL` (`id_rol`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
