@@ -1,5 +1,5 @@
 from flask_restful import Resource, reqparse
-from recursos.conexion import DBAfiliado
+from recursos.db_afiliado import DBAfiliado
 
 
 class AfiliadoG(Resource):
@@ -8,6 +8,8 @@ class AfiliadoG(Resource):
     """
 
     def get(self, jwt, codigo, clave):
+        db_afiliado = DBAfiliado()
+        db_afiliado.login(codigo, clave)
         return {codigo: codigo}
 
 
@@ -16,7 +18,8 @@ class Afiliado(Resource):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('jwt', type=str, required=True)
         self.parser.add_argument('nombre', type=str, required=True)
-        self.parser.add_argument('password', type=str, dest='clave', required=False)
+        self.parser.add_argument('password', type=str, dest='clave',
+                                 required=False)
         self.parser.add_argument('codigo', type=int, required=False)
 
     
@@ -54,14 +57,23 @@ class Afiliado(Resource):
 
         db_afiliado = DBAfiliado()
 
-        vigente = db_afiliado.modificar(codigo, nombre, clave)
+        data = db_afiliado.modificar(codigo, nombre, clave)
         db_afiliado.cerrar()
+
+        if len(data) == 0:
+            return {}, 404
+
+        if vigente == None:
+            vigente = False
+
+        # TODO validar la fecha
 
         rst = {
             "codigo": codigo,
             "nombre": nombre,
             "vigente": vigente
         }
+
         return rst
 
 
