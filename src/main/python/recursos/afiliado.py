@@ -8,12 +8,35 @@ class AfiliadoG(Resource):
     """
 
     def get(self, jwt, codigo, clave):
+        if codigo == None or clave == None or jwt==None:
+            return {}, 406
+
         db_afiliado = DBAfiliado()
-        db_afiliado.login(codigo, clave)
-        return {codigo: codigo}
+        rst = db_afiliado.login(codigo)
+
+        if len(rst) == 0:
+            return {}, 404
+
+        if clave != rst[3]:
+            return {}, 401
+
+        vigente = rst[2]
+        if vigente == None:
+            vigente = False
+
+        # TODO validar la fecha
+
+        rst = {
+            "codigo": codigo,
+            "nombre": rst[1],
+            "vigente": vigente
+        }
+
+        return rst
 
 
 class Afiliado(Resource):
+
     def __init__(self):
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('jwt', type=str, required=True)
@@ -62,6 +85,8 @@ class Afiliado(Resource):
 
         if len(data) == 0:
             return {}, 404
+
+        vigente = data[0]
 
         if vigente == None:
             vigente = False

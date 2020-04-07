@@ -2,11 +2,11 @@ from recursos.conexion import Conexion
 
 class DBAfiliado(Conexion):
 
-    def login(self, codigo, clave):
-        sql = """SELECT id_cliente, nombres, fecha_vencimiento
+    def login(self, codigo):
+        sql = """SELECT id_cliente, nombres, fecha_vencimiento, clave
         FROM USUARIO
-        WHERE id_cliente = %s AND clave = %s"""
-        vals = (codigo, clave)
+        WHERE id_cliente = %s"""
+        vals = (codigo, )
         self._cursor.execute(sql, vals)
         rst = self._cursor.fetchall()
         if len(rst):
@@ -41,7 +41,7 @@ class DBAfiliado(Conexion):
         self._cursor.execute(sql, valores)
         self._mydb.commit()
 
-        sql = "SELECT * FROM USUARIO WHERE id_cliente = %s"
+        sql = "SELECT fecha_vencimiento FROM USUARIO WHERE id_cliente = %s"
         cod = (codigo,)
         self._cursor.execute(sql,cod)
         rst = self._cursor.fetchall()
