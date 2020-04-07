@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS `USUARIO` (
   INDEX `fk_USUARIO_ROL1_idx` (`id_rol` ASC),
   CONSTRAINT `fk_USUARIO_ROL1`
     FOREIGN KEY (`id_rol`)
-    REFERENCES `mydb`.`ROL` (`id_rol`)
+    REFERENCES `ROL` (`id_rol`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
