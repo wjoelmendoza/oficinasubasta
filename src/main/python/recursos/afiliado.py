@@ -8,7 +8,7 @@ class AfiliadoG(Resource):
     """
 
     def get(self, jwt, codigo, clave):
-        if codigo == None or clave == None or jwt==None:
+        if codigo is None or clave is None or jwt is None:
             return {}, 406
 
         db_afiliado = DBAfiliado()
@@ -21,7 +21,7 @@ class AfiliadoG(Resource):
             return {}, 401
 
         vigente = rst[2]
-        if vigente == None:
+        if vigente is None:
             vigente = False
 
         # TODO validar la fecha
@@ -45,37 +45,35 @@ class Afiliado(Resource):
                                  required=False)
         self.parser.add_argument('codigo', type=int, required=False)
 
-    
     def post(self):
         datos = self.parser.parse_args()
         pw = datos["clave"]
 
-        if pw == None:
-            return {"msg": "Not acceptable"},406
-        
+        if pw is None:
+            return {"msg": "Not acceptable"}, 406
+
         db_afiliado = DBAfiliado()
-        id_af =db_afiliado.crear(datos['nombre'], datos['clave'])
+        id_af = db_afiliado.crear(datos['nombre'], datos['clave'])
         db_afiliado.cerrar()
         rst = {
             "codigo": id_af,
             "nombre": datos['nombre'],
             "vigente": False
         }
-        
+
         return rst
-        
-    
+
     def put(self):
         datos = self.parser.parse_args()
         codigo = datos['codigo']
 
-        if codigo == None:
+        if codigo is None:
             return {}, 406
-        
+
         nombre = datos['nombre']
         clave = datos['clave']
 
-        if nombre == None and clave == None:
+        if nombre is None and clave is None:
             return {}, 406
 
         db_afiliado = DBAfiliado()
@@ -88,7 +86,7 @@ class Afiliado(Resource):
 
         vigente = data[0]
 
-        if vigente == None:
+        if vigente is None:
             vigente = False
 
         # TODO validar la fecha
@@ -100,7 +98,6 @@ class Afiliado(Resource):
         }
 
         return rst
-
 
     def delete(self):
         pass

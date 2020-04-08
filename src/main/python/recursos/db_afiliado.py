@@ -1,5 +1,6 @@
 from recursos.conexion import Conexion
 
+
 class DBAfiliado(Conexion):
 
     def login(self, codigo):
@@ -14,28 +15,27 @@ class DBAfiliado(Conexion):
 
         return rst
 
-
     def crear(self, nombre, clave):
-        sql = "INSERT INTO USUARIO (nombres, clave, id_rol) VALUES (%s, %s, %s)"
+        sql = """INSERT INTO USUARIO (nombres, clave, id_rol)
+        VALUES (%s, %s, %s)"""
         vals = (nombre, clave, "1")
         self._cursor.execute(sql, vals)
         self._mydb.commit()
         return self._cursor.lastrowid
 
-
     def modificar(self, codigo, nombre, clave):
         sql = "UPDATE USUARIO SET "
         valores = None
 
-        if nombre is not None and clave == None:
+        if nombre is not None and clave is None:
             sql += "nombres = %s "
             valores = (nombre, codigo)
-        elif nombre == None and clave is not None:
+        elif nombre is None and clave is not None:
             sql += "clave = %s "
             valores = (clave, codigo)
         else:
             sql += " nombres = %s, clave = %s "
-            valores = ( nombre, clave, codigo)
+            valores = (nombre, clave, codigo)
 
         sql += "WHERE id_cliente = %s"
         self._cursor.execute(sql, valores)
@@ -43,7 +43,7 @@ class DBAfiliado(Conexion):
 
         sql = "SELECT fecha_vencimiento FROM USUARIO WHERE id_cliente = %s"
         cod = (codigo,)
-        self._cursor.execute(sql,cod)
+        self._cursor.execute(sql, cod)
         rst = self._cursor.fetchall()
 
         return rst[0]

@@ -1,5 +1,6 @@
 import mysql.connector
 
+
 class Conexion(object):
 
     def __init__(self):
@@ -16,8 +17,5 @@ class Conexion(object):
 
         self._cursor = self._mydb.cursor()
 
-
     def cerrar(self):
         self._mydb.close()
-
-
