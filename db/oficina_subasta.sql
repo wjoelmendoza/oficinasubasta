@@ -64,7 +64,6 @@ CREATE TABLE IF NOT EXISTS `oficina_subasta`.`MEMBRESIA` (
   `id_membresia` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `fecha_pago` DATE NOT NULL,
   `fecha_vencimiento` DATE NOT NULL,
-  `numero_doc` INT NOT NULL,
   `id_tipo_doc` INT NOT NULL,
   `id_cliente` INT UNSIGNED NOT NULL,
   `monto` DOUBLE NOT NULL,

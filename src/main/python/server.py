@@ -2,6 +2,7 @@
 from flask import Flask
 from flask_restful import Api
 from recursos.afiliado import AfiliadoG, Afiliado
+from recursos.pago import Pago
 
 
 class Servidor:
@@ -16,6 +17,7 @@ class Servidor:
         self.api = Api(self.app)
         self.api.add_resource(Afiliado, '/afiliado')
         self.api.add_resource(AfiliadoG, '/afiliado/<string:jwt>/<int:codigo>/<string:clave>')
+        self.api.add_resource(Pago, '/pago')
 
 
     def iniciar(self, host='0.0.0.0', port=8083, debug=True):
