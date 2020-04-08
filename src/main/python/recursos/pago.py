@@ -24,6 +24,8 @@ class Pago(Resource):
 
         return resp
 
+class PagoG(Resource):
+
     def get(self, jwt, codigo):
         
         db_pago = DBPago()
@@ -35,5 +37,7 @@ class Pago(Resource):
         respuesta = {
             "id" : codigo,
             "monto" : respuesta[1],
-            "fecha" : respuesta[2]
+            "fecha" : str(respuesta[2])
         }
+
+        return respuesta

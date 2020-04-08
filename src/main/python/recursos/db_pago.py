@@ -5,7 +5,7 @@ from recursos.conexion import Conexion
 
 class DBPago(Conexion):
 
-   def crear_pago(self,monto,idCliente):
+   def crear_pago(self,idCliente,monto):
        sql = """INSERT INTO MEMBRESIA (fecha_pago,fecha_vencimiento,id_cliente,
        id_tipo_doc,monto) VALUES (%s,%s,%s,%s,%s)"""
        fechaP = datetime.now()
@@ -19,9 +19,9 @@ class DBPago(Conexion):
 
    
    def codigo(self,codigo):
-        sql = """ SELECT id_cliente,monto,fecha_pago FROM MEMBRESIA WHERE 
+        sql = """SELECT id_cliente,monto,fecha_pago FROM MEMBRESIA WHERE 
         id_cliente = %s"""
-        valores = (codigo)
+        valores = (codigo,)
         self._cursor.execute(sql,valores)
         respuesta = self._cursor.fetchall()
         if len(respuesta):
