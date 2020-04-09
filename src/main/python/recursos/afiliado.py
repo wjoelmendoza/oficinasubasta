@@ -38,12 +38,19 @@ class AfiliadoG(Resource):
 class Afiliado(Resource):
 
     def __init__(self):
+        location = ("args", "json", "values")
         self.parser = reqparse.RequestParser()
-        self.parser.add_argument('jwt', type=str, required=True)
-        self.parser.add_argument('nombre', type=str, required=True)
+        self.parser.add_argument('jwt', type=str, required=True,
+                                 location=location)
+        self.parser.add_argument('nombre', type=str, required=False)
         self.parser.add_argument('password', type=str, dest='clave',
-                                 required=False)
-        self.parser.add_argument('codigo', type=int, required=False)
+                                 required=False, location=location)
+        self.parser.add_argument('codigo', type=int, required=False,
+                                 location=location)
+
+    def get(self):
+        datos = self.parser.parse_args()
+        return datos
 
     def post(self):
         datos = self.parser.parse_args()

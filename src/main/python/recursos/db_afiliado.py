@@ -3,11 +3,12 @@ from recursos.conexion import Conexion
 
 class DBAfiliado(Conexion):
 
-    def login(self, codigo):
+    def login(self, codigo):  # pragma: no cover
         sql = """SELECT id_cliente, nombres, fecha_vencimiento, clave
         FROM USUARIO
         WHERE id_cliente = %s"""
         vals = (codigo, )
+        return sql, vals
         self._cursor.execute(sql, vals)
         rst = self._cursor.fetchall()
         if len(rst):
@@ -15,7 +16,7 @@ class DBAfiliado(Conexion):
 
         return rst
 
-    def crear(self, nombre, clave):
+    def crear(self, nombre, clave):  # pragma: no cover
         sql = """INSERT INTO USUARIO (nombres, clave, id_rol)
         VALUES (%s, %s, %s)"""
         vals = (nombre, clave, "1")
@@ -23,7 +24,7 @@ class DBAfiliado(Conexion):
         self._mydb.commit()
         return self._cursor.lastrowid
 
-    def modificar(self, codigo, nombre, clave):
+    def modificar(self, codigo, nombre, clave):  # pragma: no cover
         sql = "UPDATE USUARIO SET "
         valores = None
 
@@ -47,3 +48,7 @@ class DBAfiliado(Conexion):
         rst = self._cursor.fetchall()
 
         return rst[0]
+
+if __name__ == "__main__":  # pragma: no cover
+    import doctest
+    doctest.testmod()

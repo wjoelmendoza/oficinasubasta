@@ -4,7 +4,7 @@ from flask_restful import Api
 from recursos.afiliado import AfiliadoG, Afiliado
 
 
-class Servidor:
+class Servidor:  # pragma: no cover
     """
     Esta clase se encarga de manejar el servidor y ponerlo a funcionar
     """
@@ -25,6 +25,6 @@ class Servidor:
         self.app.run(host=host, port=port, debug=debug)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':  # pragma: no cover
     server = Servidor()
     server.iniciar()
