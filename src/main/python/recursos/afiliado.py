@@ -17,10 +17,10 @@ class AfiliadoG(Resource):
         if len(rst) == 0:
             return {}, 404
 
-        if clave != rst[3]:
+        if clave != rst[2]:
             return {}, 401
 
-        vigente = rst[2]
+        vigente = rst[1]
         if vigente is None:
             vigente = False
 
@@ -28,7 +28,7 @@ class AfiliadoG(Resource):
 
         rst = {
             "codigo": codigo,
-            "nombre": rst[1],
+            "nombre": rst[0],
             "vigente": vigente
         }
 
@@ -50,7 +50,35 @@ class Afiliado(Resource):
 
     def get(self):
         datos = self.parser.parse_args()
-        return datos
+        jwt = datos['jwt']
+        clave = datos['clave']
+        codigo = datos['codigo']
+
+        if jwt is None or clave is None or codigo is None:
+            return {}, 406
+
+        db_afiliado = DBAfiliado()
+        rst = db_afiliado.login(codigo)
+
+        if len(rst) == 0:
+            return {}, 404
+
+        if clave != rst[2]:
+            return {}, 401
+
+        vigente = rst[1]
+        if vigente is None:
+            vigente = False
+
+        # TODO validar la fecha
+
+        rst = {
+            "codigo": codigo,
+            "nombre": rst[0],
+            "vigente": vigente
+        }
+
+        return rst
 
     def post(self):
         datos = self.parser.parse_args()

@@ -17,7 +17,6 @@ class Servidor:  # pragma: no cover
         self.api.add_resource(Afiliado, '/afiliado')
         self.api.add_resource(AfiliadoG, '/afiliado/<string:jwt>/<int:codigo>/<string:clave>')
 
-
     def iniciar(self, host='0.0.0.0', port=8083, debug=True):
         """
         Se encarga de inicias el servidor web

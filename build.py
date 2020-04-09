@@ -10,7 +10,7 @@ use_plugin("python.distutils")
 
 name = "OficinaSubasta"
 default_task = ["publish", "analyze"]
-version="0.1.dev0"
+version="0.1.dev3"
 
 
 @init
