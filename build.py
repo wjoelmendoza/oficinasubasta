@@ -4,16 +4,25 @@ use_plugin("python.core")
 use_plugin("python.install_dependencies")
 use_plugin("python.flake8")
 use_plugin("python.distutils")
+# use_plugin("python.unittest")
+# use_plugin("python.coverage")
+
 
 name = "OficinaSubasta"
 default_task = ["publish", "analyze"]
-version="0.1.dev0"
+version="0.1.dev3"
 
 
 @init
 def set_properties(project):
     project.depends_on("flask")
     project.depends_on("flask_restful")
+    project.depends_on("mysql-connector")
 
     project.set_property("flake8_verbose_output", True)
     project.set_property("flake8_include_scripts", True)
+
+
+@init
+def initialize(project):
+    project.build_depends_on("mockito")
