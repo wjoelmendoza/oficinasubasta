@@ -12,6 +12,11 @@ class Pago(Resource):
 
     def post(self):
         datos = self.parser.parse_args()
+
+        cod = datos['codigo']
+
+        if cod == None:
+            return {"msg" : "Not acceptable"}, 406
         
         db_pago = DBPago()
         id_pago,fechaP = db_pago.crear_pago(datos['codigo'],datos['monto'])

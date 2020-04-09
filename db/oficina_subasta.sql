@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `ROL` (
 CREATE TABLE IF NOT EXISTS `USUARIO` (
   `id_cliente` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombres` VARCHAR(250) NOT NULL,
-  `fecha_vencimiento` DATE NULL,
+  `fecha_vencimiento` DATETIME NULL,
   `clave` VARCHAR(20) NOT NULL,
   `id_rol` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`id_cliente`),
@@ -62,8 +62,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `oficina_subasta`.`MEMBRESIA` (
   `id_membresia` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `fecha_pago` DATE NOT NULL,
-  `fecha_vencimiento` DATE NOT NULL,
+  `fecha_pago` DATETIME NOT NULL,
+  `fecha_vencimiento` DATETIME NOT NULL,
   `id_tipo_doc` INT NOT NULL,
   `id_cliente` INT UNSIGNED NOT NULL,
   `monto` DOUBLE NOT NULL,
