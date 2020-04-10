@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from recursos.db_afiliado import DBAfiliado
+from datetime import datetime
 
 
 class AfiliadoG(Resource):
@@ -23,8 +24,11 @@ class AfiliadoG(Resource):
         vigente = rst[1]
         if vigente is None:
             vigente = False
-
-        # TODO validar la fecha
+        else:
+            act = datetime.now()
+            if type(vigente) == str:
+                vigente = datetime.fromisoformat(vigente)
+            vigente = act < vigente
 
         rst = {
             "codigo": codigo,
@@ -69,8 +73,11 @@ class Afiliado(Resource):
         vigente = rst[1]
         if vigente is None:
             vigente = False
-
-        # TODO validar la fecha
+        else:
+            act = datetime.now()
+            if type(vigente) == str:
+                vigente = datetime.fromisoformat(vigente)
+            vigente = act < vigente
 
         rst = {
             "codigo": codigo,
@@ -96,7 +103,7 @@ class Afiliado(Resource):
             "vigente": False
         }
 
-        return rst
+        return rst, 201
 
     def put(self):
         datos = self.parser.parse_args()
@@ -123,8 +130,11 @@ class Afiliado(Resource):
 
         if vigente is None:
             vigente = False
-
-        # TODO validar la fecha
+        else:
+            act = datetime.now()
+            if type(vigente) == str:
+                vigente = datetime.fromisoformat(vigente)
+            vigente = act < vigente
 
         rst = {
             "codigo": codigo,
@@ -132,7 +142,7 @@ class Afiliado(Resource):
             "vigente": vigente
         }
 
-        return rst
+        return rst, 201
 
     def delete(self):
         pass

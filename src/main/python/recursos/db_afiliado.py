@@ -71,12 +71,17 @@ class DBAfiliado(Conexion):
         self._cursor.execute(sql, valores)
         self._mydb.commit()
 
+        rst = self.get_fecha(codigo)
+
+        return rst
+
+    def get_fecha(self, id_cliente):
         if self.base == "mysql":
             sql = "SELECT fecha_vencimiento FROM USUARIO WHERE id_cliente = %s"
         else:
-            sql = "SELET fecha_vencimiento FROM USUARIO WHERE id_cliente = ?"
+            sql = "SELECT fecha_vencimiento FROM USUARIO WHERE id_cliente = ?"
 
-        cod = (codigo,)
+        cod = (id_cliente, )
 
         self._cursor.execute(sql, cod)
         rst = self._cursor.fetchall()
