@@ -96,7 +96,7 @@ class Afiliado(Resource):
             "vigente": False
         }
 
-        return rst
+        return rst, 201
 
     def put(self):
         datos = self.parser.parse_args()
@@ -132,7 +132,7 @@ class Afiliado(Resource):
             "vigente": vigente
         }
 
-        return rst
+        return rst, 201
 
     def delete(self):
         pass
