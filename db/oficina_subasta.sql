@@ -92,11 +92,9 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 DELIMITER //
-CREATE OR REPLACE PROCEDURE oficina_subasta.test
-	(OUT rst SMALLINT)
-	BEGIN
-		DECLARE fecha datetime;
-		SELECT u.fecha_vencimiento INTO fecha FROM USUARIO u WHERE u.id_cliente = 2;
-		SELECT fecha IS NULL INTO rst;
-	END //
+CREATE OR REPLACE TRIGGER v_membresia_insert
+	AFTER INSERT ON MEMBRESIA FOR EACH ROW BEGIN
+		UPDATE USUARIO SET fecha_vencimiento = NEW.fecha_vencimiento
+		WHERE id_cliente = NEW.id_cliente;
+	END
 DELIMITER ;
