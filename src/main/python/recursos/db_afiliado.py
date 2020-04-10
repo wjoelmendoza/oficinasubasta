@@ -86,7 +86,10 @@ class DBAfiliado(Conexion):
         self._cursor.execute(sql, cod)
         rst = self._cursor.fetchall()
 
-        return rst[0]
+        if len(rst):
+            rst = rst[0]
+
+        return rst
 
 
 if __name__ == "__main__":  # pragma: no cover
