@@ -42,7 +42,7 @@ class Pago(Resource):
 
         if monto != 1000:
             return {"msg": "Not accepted"}, 406
-        dato = self.validar_usuario(cod)
+        dato = validar_usuario(cod)
         if len(dato) == 0:
             return {"msg": "Not found"}, 404
 
