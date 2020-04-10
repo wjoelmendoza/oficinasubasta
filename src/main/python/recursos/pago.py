@@ -55,7 +55,7 @@ class Pago(Resource):
                 fvigente = datetime.fromisoformat(fvigente)
             insertar = act > fvigente
         if not insertar:
-            return {"msg": "Not acceptec"}, 406
+            return {"msg": "Not accepted"}, 406
 
         db_pago = DBPago()
         id_pago, fechaP = db_pago.crear_pago(cod, monto)
