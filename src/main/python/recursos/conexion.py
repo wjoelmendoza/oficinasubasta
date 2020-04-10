@@ -1,4 +1,5 @@
 import mysql.connector
+from mysql.connector.errors import InterfaceError
 import sqlite3
 
 
@@ -23,7 +24,7 @@ class Conexion(object):
             else:
                 print("usando base de respado")
                 self._mydb = sqlite3.connect("base_lite.db")
-        except:
+        except InterfaceError:
             self._mydb = sqlite3.connect("base_lite.db")
             print("creando base de respaldo")
             Conexion.base = "sqlite"
@@ -91,10 +92,9 @@ class Conexion(object):
             cursor.execute("""
                 CREATE TRIGGER  v_membresia_insert AFTER INSERT ON MEMBRESIA
                     BEGIN
-	                    UPDATE USUARIO
-		                SET fecha_vencimiento = NEW.fecha_vencimiento
-		                WHERE id_cliente = NEW.id_cliente;
+                        UPDATE USUARIO
+                        SET fecha_vencimiento = NEW.fecha_vencimiento
+                        WHERE id_cliente = NEW.id_cliente;
                 END""")
         except sqlite3.OperationalError as e:
             print(e)
-
