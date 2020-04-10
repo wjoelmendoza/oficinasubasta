@@ -6,7 +6,6 @@ from recursos.pago import Pago
 from recursos.pago import PagoG
 
 
-
 class Servidor:  # pragma: no cover
     """
     Esta clase se encarga de manejar el servidor y ponerlo a funcionar

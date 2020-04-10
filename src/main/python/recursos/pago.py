@@ -4,45 +4,67 @@ from recursos.db_pago import DBPago
 
 class Pago(Resource):
     def __init__(self):
+        location = ("args", "json", "values")
         self.parser = reqparse.RequestParser()
-        self.parser.add_argument('jwt', type=str, required=True)
-        self.parser.add_argument('codigo', type=int, required=True)
-        self.parser.add_argument('monto', type=float, required=True)
-    
+        self.parser.add_argument('jwt', type=str, required=True, location=location)
+        self.parser.add_argument('codigo', type=int, required=True, location=location)
+        self.parser.add_argument('monto', type=float, required=False)
+
+    def get(self):
+        datos = self.parser.parse_args()
+        codigo = datos['codigo']
+
+        db_pago = DBPago()
+        data = db_pago.codigo_pago(codigo)
+
+        if len(data) == 0:
+            return {"msg": "Not found"}, 404
+
+        respuesta = {
+            "id": data[0],
+            "monto": data[1],
+            "fecha": data[2].strftime("%Y-%m-%d %H:%M:%S")
+        }
+
+        return respuesta
 
     def post(self):
         datos = self.parser.parse_args()
-
+        jwt = datos['jwt']
         cod = datos['codigo']
+        monto = datos['monto']
 
-        if cod == None:
-            return {"msg" : "Not acceptable"}, 406
-        
-        db_pago = DBPago()
-        id_pago,fechaP = db_pago.crear_pago(datos['codigo'],datos['monto'])
-        db_pago.cerrar()
+        if jwt is None or cod is None or monto is None:
+            return {"msg": "Not accepted"}, 406
+
+        if monto != 1000:
+            return {"msg": "Not accepted"}, 406
+        else:
+            db_pago = DBPago()
+            id_pago, fechaP = db_pago.crear_pago(cod, monto)
+            db_pago.cerrar()
+
         resp = {
-            "id" : id_pago,
-            "monto" : datos['monto'],
-            "fecha" : fechaP
+            "id": id_pago,
+            "monto": monto,
+            "fecha": fechaP
         }
 
         return resp
 
+
 class PagoG(Resource):
-
     def get(self, jwt, codigo):
-        
         db_pago = DBPago()
-        respuesta = db_pago.codigo(codigo)
+        data = db_pago.codigo_pago(codigo)
 
-        if len(respuesta) == 0:
-                return {}, 404
+        if len(data) == 0:
+            return {}, 404
 
         respuesta = {
-            "id" : codigo,
-            "monto" : respuesta[1],
-            "fecha" : str(respuesta[2])
+            "id": data[0],
+            "monto": data[1],
+            "fecha": str(data[2])
         }
 
         return respuesta
