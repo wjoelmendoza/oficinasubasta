@@ -18,7 +18,8 @@ class DBPago(Conexion):
         return self._cursor.lastrowid, fechaP
 
     def codigo_pago(self, codigo):
-        sql = """SELECT id_membresia,monto,fecha_pago FROM MEMBRESIA WHERE id_cliente = %s"""
+        sql = """SELECT id_membresia,monto,fecha_pago FROM MEMBRESIA WHERE id_cliente = %s ORDER BY id_membresia
+        ASC LIMIT 1"""
         valores = (codigo, )
         self._cursor.execute(sql, valores)
         respuesta = self._cursor.fetchall()

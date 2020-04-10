@@ -1,5 +1,7 @@
 from flask_restful import Resource, reqparse
 from recursos.db_pago import DBPago
+from recursos.db_afiliado import DBAfiliado
+from datetime import datetime
 
 
 class Pago(Resource):
@@ -14,11 +16,12 @@ class Pago(Resource):
         datos = self.parser.parse_args()
         codigo = datos['codigo']
 
+        dato = validar_usuario(codigo)
+        if len(dato) == 0:
+            return {"msg": "Not found"}, 404
+
         db_pago = DBPago()
         data = db_pago.codigo_pago(codigo)
-
-        if len(data) == 0:
-            return {"msg": "Not found"}, 404
 
         respuesta = {
             "id": data[0],
@@ -39,27 +42,48 @@ class Pago(Resource):
 
         if monto != 1000:
             return {"msg": "Not accepted"}, 406
-        else:
-            db_pago = DBPago()
-            id_pago, fechaP = db_pago.crear_pago(cod, monto)
-            db_pago.cerrar()
+        dato = self.validar_usuario(cod)
+        if len(dato) == 0:
+            return {"msg": "Not found"}, 404
+
+        insertar = True
+        fvigente = dato[0]
+
+        if fvigente is not None:
+            act = datetime.now()
+            if type(fvigente) == str:
+                fvigente = datetime.fromisoformat(fvigente)
+            insertar = act > fvigente
+        if not insertar:
+            return {"msg": "Not acceptec"}, 406
+
+        db_pago = DBPago()
+        id_pago, fechaP = db_pago.crear_pago(cod, monto)
+        db_pago.cerrar()
 
         resp = {
             "id": id_pago,
             "monto": monto,
             "fecha": fechaP
         }
+        return resp, 201
 
-        return resp
+
+def validar_usuario(codigo):
+    db_afiliado = DBAfiliado()
+    dato = db_afiliado.get_fecha(codigo)
+    db_afiliado.cerrar()
+    return dato
 
 
 class PagoG(Resource):
     def get(self, jwt, codigo):
+        dato = validar_usuario(codigo)
+        if len(dato) == 0:
+            return {"msg": "Not found"}, 404
+
         db_pago = DBPago()
         data = db_pago.codigo_pago(codigo)
-
-        if len(data) == 0:
-            return {}, 404
 
         respuesta = {
             "id": data[0],
