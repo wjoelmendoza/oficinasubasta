@@ -8,6 +8,8 @@ gen_artefacto:
   - apt-get install -y python3-dev python3-pip
   - pip3 install --upgrade pip
   - pip3 install --pre pybuilder
+  - pip3 install flask_restful
+  - pip3 install mysql-connector
   - pyb
   - mkdir artefactos
   - cp -r target/dist/Oficina*/dist artefactos/
