@@ -14,6 +14,7 @@ class AfiliadoG(Resource):
 
         db_afiliado = DBAfiliado()
         rst = db_afiliado.login(codigo)
+        db_afiliado.cerrar()
 
         if len(rst) == 0:
             return {}, 404
@@ -39,7 +40,7 @@ class AfiliadoG(Resource):
         return rst
 
 
-class Afiliado(Resource):
+class Afiliado(Resource): # pragma: no cover
 
     def __init__(self):
         location = ("args", "json", "values")

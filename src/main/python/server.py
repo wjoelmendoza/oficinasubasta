@@ -15,7 +15,8 @@ class Servidor:  # pragma: no cover
         self.app = Flask(__name__)
         self.api = Api(self.app)
         self.api.add_resource(Afiliado, '/afiliado')
-        self.api.add_resource(AfiliadoG, '/afiliado/<string:jwt>/<int:codigo>/<string:clave>')
+        self.api.add_resource(AfiliadoG, '/afiliado/<string:jwt>/<int:codigo>\
+                                /<string:clave>')
 
     def iniciar(self, host='0.0.0.0', port=8083, debug=True):
         """

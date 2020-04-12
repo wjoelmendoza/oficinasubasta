@@ -20,7 +20,6 @@ class Conexion(object):
             )
             Conexion.creada = True
         else:
-            print("usando base de respaldo")
             self._mydb = sqlite3.connect("base_lite.db")
             if not self.creada:
                 Conexion.creada = True
@@ -31,7 +30,7 @@ class Conexion(object):
     def cerrar(self):
         self._mydb.close()
 
-    def __db_sqlite__(self):
+    def __db_sqlite__(self):  # pragma: no cover
 
         cursor = self._mydb.cursor()
 
