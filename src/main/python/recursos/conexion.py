@@ -1,5 +1,4 @@
 import mysql.connector
-from mysql.connector.errors import InterfaceError
 import sqlite3
 
 
@@ -12,23 +11,16 @@ class Conexion(object):
         Inicia la conexion con la base de datos
         con sus respectivas credenciales
         """
-        try:
-            if Conexion.base == "mysql":
-                self._mydb = mysql.connector.connect(
-                    host='db_oficina',
-                    user='root',
-                    passwd='123456',
-                    database='oficina_subasta'
-                )
-                Conexion.creada = True
-            else:
-                print("usando base de respado")
-                self._mydb = sqlite3.connect("base_lite.db")
-        except InterfaceError:
+        if Conexion.base == "mysql":
+            self._mydb = mysql.connector.connect(
+                host='db_oficina',
+                user='root',
+                passwd='123456',
+                database='oficina_subasta'
+            )
+            Conexion.creada = True
+        else:
             self._mydb = sqlite3.connect("base_lite.db")
-            print("creando base de respaldo")
-            Conexion.base = "sqlite"
-
             if not self.creada:
                 Conexion.creada = True
                 self.__db_sqlite__()
@@ -38,7 +30,7 @@ class Conexion(object):
     def cerrar(self):
         self._mydb.close()
 
-    def __db_sqlite__(self):
+    def __db_sqlite__(self):  # pragma: no cover
 
         cursor = self._mydb.cursor()
 
