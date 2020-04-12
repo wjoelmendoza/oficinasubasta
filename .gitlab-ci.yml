@@ -1,0 +1,16 @@
+stages:
+  - gen_artefacto
+
+gen_artefacto:
+  stage: gen_artefacto
+  script:
+  - apt-get update -qy
+  - apt-get install -y python3-dev python3-pip
+  - pip3 install --upgrade pip
+  - pip3 install --pre pybuilder
+  - pyb
+  - mkdir artefactos
+  - cp -r target/dist/Oficina*/dist artefactos/
+  artifacts:
+    paths:
+      - artefactos
