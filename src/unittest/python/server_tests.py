@@ -1,6 +1,7 @@
 import unittest
 from base import BaseTest
 from recursos.db_afiliado import DBAfiliado
+from recursos.db_pago import DBPago
 
 
 class AfiliadoTest(BaseTest):
@@ -8,6 +9,8 @@ class AfiliadoTest(BaseTest):
     def test_get_406(self):
         client = self.create_app().test_client()
         response = client.get('/afiliado?jwt=hola')
+        status = response.status
+        self.assertTrue(status.count("406") >= 1)
 
         response = client.get('/afiliado?jwt=hola&password=123456')
         status = response.status
@@ -42,6 +45,30 @@ class AfiliadoTest(BaseTest):
         self.assertEqual(codigo, rst['codigo'])
         self.assertEqual("test1", rst["nombre"])
         self.assertEqual(False, rst["vigente"])
+
+    def test_get_vigente_str(self):
+        client = self.create_app().test_client()
+        codigo = self.crear_afiliado()
+        self.crear_pago(codigo)
+        rsrc = f"/afiliado?jwt=hola&codigo={codigo}&password=123456"
+        response = client.get(rsrc)
+
+        rst = response.get_json()
+        self.assertEqual(codigo, rst['codigo'])
+        self.assertEqual("test1", rst["nombre"])
+        self.assertEqual(True, rst["vigente"])
+
+    def test_get_vigente(self):
+        client = self.create_app().test_client()
+        codigo = self.crear_afiliado()
+        self.crear_pago(codigo)
+        rsrc = f"/afiliado/hola/{codigo}/123456"
+        response = client.get(rsrc)
+
+        rst = response.get_json()
+        self.assertEqual(codigo, rst['codigo'])
+        self.assertEqual("test1", rst["nombre"])
+        self.assertEqual(True, rst["vigente"])
 
     def test_post_406(self):
         client = self.create_app().test_client()
@@ -116,20 +143,45 @@ class AfiliadoTest(BaseTest):
 
         datos = {
             "jwt": "jwt",
-            "clave": "test2",
+            "password": "test2",
             "codigo": i
         }
 
         response = client.put("/afiliado", data=datos)
 
         rst = response.get_json()
+        self.assertEqual(rst["codigo"], i)
+        self.assertEqual(rst["nombre"], "test1")
 
-        # self.assertEqual(i, rst["codigo"])
+    def test_put_vigente(self):
+        client = self.create_app().test_client()
 
+        i = self.crear_afiliado()
+
+        self.crear_pago(i)
+
+        datos = {
+            "jwt": "jwt",
+            "password": "test2",
+            "codigo": i
+        }
+
+        response = client.put("/afiliado", data=datos)
+
+        rst = response.get_json()
+        self.assertEqual(rst["codigo"], i)
+        self.assertEqual(rst["nombre"], "test1")
 
     def crear_afiliado(self):
         dba = DBAfiliado()
         i = dba.crear("test1", "123456")
         dba.cerrar()
         return i
+
+    def crear_pago(self, cod):
+        dbp = DBPago()
+        idp, _ = dbp.crear_pago(cod, 1000.00)
+        dbp.cerrar()
+        return idp
+
 

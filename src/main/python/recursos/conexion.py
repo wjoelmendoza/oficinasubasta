@@ -11,7 +11,7 @@ class Conexion(object):
         Inicia la conexion con la base de datos
         con sus respectivas credenciales
         """
-        if Conexion.base == "mysql":
+        if Conexion.base == "mysql":  # pragma: no cover
             self._mydb = mysql.connector.connect(
                 host='db_oficina',
                 user='root',
@@ -30,7 +30,7 @@ class Conexion(object):
     def cerrar(self):
         self._mydb.close()
 
-    def __db_sqlite__(self):  # pragma: no cover
+    def __db_sqlite__(self):
 
         cursor = self._mydb.cursor()
 

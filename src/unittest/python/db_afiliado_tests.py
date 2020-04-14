@@ -48,4 +48,4 @@ class DBAfiliadoTest(unittest.TestCase):
         db_afiliado = DBAfiliado()
         rst = db_afiliado.modificar(codigo, nombre, clave)
 
-        self.assertEqual(len(rst), 1)
+        self.assertNotEqual(len(rst), 0)

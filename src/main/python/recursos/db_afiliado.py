@@ -77,9 +77,9 @@ class DBAfiliado(Conexion):
 
     def get_fecha(self, id_cliente):
         if self.base == "mysql":  # pragma: no cover
-            sql = "SELECT fecha_vencimiento FROM USUARIO WHERE id_cliente = %s"
+            sql = "SELECT fecha_vencimiento, nombres FROM USUARIO WHERE id_cliente = %s"
         else:
-            sql = "SELECT fecha_vencimiento FROM USUARIO WHERE id_cliente = ?"
+            sql = "SELECT fecha_vencimiento, nombres FROM USUARIO WHERE id_cliente = ?"
 
         cod = (id_cliente, )
 

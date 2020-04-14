@@ -2,6 +2,12 @@ from flask_restful import Resource, reqparse
 from recursos.db_afiliado import DBAfiliado
 from datetime import datetime
 
+def is_vigente(fecha):
+    act = datetime.now()
+    if type(fecha) == str:  # pragma: no coverage
+        fecha = datetime.fromisoformat(fecha)
+
+    return act < fecha
 
 class AfiliadoG(Resource):
     """
@@ -26,10 +32,7 @@ class AfiliadoG(Resource):
         if vigente is None:
             vigente = False
         else:
-            act = datetime.now()
-            if type(vigente) == str:
-                vigente = datetime.fromisoformat(vigente)
-            vigente = act < vigente
+            vigente = is_vigente(vigente)
 
         rst = {
             "codigo": codigo,
@@ -75,10 +78,7 @@ class Afiliado(Resource):
         if vigente is None:
             vigente = False
         else:
-            act = datetime.now()
-            if type(vigente) == str:
-                vigente = datetime.fromisoformat(vigente)
-            vigente = act < vigente
+            vigente = is_vigente(vigente)
 
         rst = {
             "codigo": codigo,
@@ -133,18 +133,15 @@ class Afiliado(Resource):
         if vigente is None:
             vigente = False
         else:
-            act = datetime.now()
-            if type(vigente) == str:
-                vigente = datetime.fromisoformat(vigente)
-            vigente = act < vigente
+            vigente = is_vigente(vigente)
 
         rst = {
             "codigo": codigo,
-            "nombre": nombre,
+            "nombre": data[1],
             "vigente": vigente
         }
 
         return rst, 201
 
-    def delete(self): # pragma: no cover
+    def delete(self):  # pragma: no cover
         pass
