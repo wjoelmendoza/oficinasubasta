@@ -6,7 +6,7 @@ from recursos.pago import Pago
 from recursos.pago import PagoG
 
 
-class Servidor:  # pragma: no cover
+class Servidor:
     """
     Esta clase se encarga de manejar el servidor y ponerlo a funcionar
     """
@@ -21,7 +21,7 @@ class Servidor:  # pragma: no cover
         self.api.add_resource(Pago, '/pago')
         self.api.add_resource(PagoG, '/pago/<string:jwt>/<int:codigo>')
 
-    def iniciar(self, host='0.0.0.0', port=8083, debug=True):
+    def iniciar(self, host='0.0.0.0', port=8083, debug=True):  # pragma: no cover
         """
         Se encarga de inicias el servidor web
         """

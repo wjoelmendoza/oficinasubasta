@@ -23,7 +23,3 @@ def set_properties(project):
     project.set_property("flake8_verbose_output", True)
     project.set_property("flake8_include_scripts", True)
 
-
-@init
-def initialize(project):
-    project.build_depends_on("mockito")

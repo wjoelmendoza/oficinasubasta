@@ -40,7 +40,7 @@ class AfiliadoG(Resource):
         return rst
 
 
-class Afiliado(Resource): # pragma: no cover
+class Afiliado(Resource):
 
     def __init__(self):
         location = ("args", "json", "values")
@@ -59,7 +59,7 @@ class Afiliado(Resource): # pragma: no cover
         clave = datos['clave']
         codigo = datos['codigo']
 
-        if jwt is None or clave is None or codigo is None:
+        if clave is None or codigo is None:
             return {}, 406
 
         db_afiliado = DBAfiliado()
@@ -91,12 +91,13 @@ class Afiliado(Resource): # pragma: no cover
     def post(self):
         datos = self.parser.parse_args()
         pw = datos["clave"]
+        nombre = datos["nombre"]
 
-        if pw is None:
+        if pw is None or nombre is None:
             return {"msg": "Not acceptable"}, 406
 
         db_afiliado = DBAfiliado()
-        id_af = db_afiliado.crear(datos['nombre'], datos['clave'])
+        id_af = db_afiliado.crear(nombre, pw)
         db_afiliado.cerrar()
         rst = {
             "codigo": id_af,
@@ -145,5 +146,5 @@ class Afiliado(Resource): # pragma: no cover
 
         return rst, 201
 
-    def delete(self):
+    def delete(self): # pragma: no cover
         pass

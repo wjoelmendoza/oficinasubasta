@@ -3,12 +3,12 @@ from recursos.conexion import Conexion
 
 class DBAfiliado(Conexion):
 
-    def login(self, codigo):  # pragma: no cover
+    def login(self, codigo):
         sql = """SELECT nombres, fecha_vencimiento, clave
         FROM USUARIO
         WHERE id_cliente = """
 
-        if self.base == "mysql":
+        if self.base == "mysql":  # pragma: no cover
             sql += "%s"
         else:
             sql += "?"
@@ -23,10 +23,10 @@ class DBAfiliado(Conexion):
 
         return rst
 
-    def crear(self, nombre, clave):  # pragma: no cover
+    def crear(self, nombre, clave):
         sql = """INSERT INTO USUARIO (nombres, clave, id_rol)
         VALUES """
-        if self.base == "mysql":
+        if self.base == "mysql":  # pragma: no cover
             sql += "(%s, %s, %s)"
         else:
             sql += "(?, ?, ?)"
@@ -36,34 +36,34 @@ class DBAfiliado(Conexion):
         self._mydb.commit()
         return self._cursor.lastrowid
 
-    def modificar(self, codigo, nombre, clave):  # pragma: no cover
+    def modificar(self, codigo, nombre, clave):
         sql = "UPDATE USUARIO SET "
         valores = None
 
         if nombre is not None and clave is None:
 
-            if self.base == "mysql":
+            if self.base == "mysql":  # pragma: no cover
                 sql += "nombres = %s "
             else:
                 sql += "nombres = ?"
 
             valores = (nombre, codigo)
         elif nombre is None and clave is not None:
-            if self.base == "mysql":
+            if self.base == "mysql":  # pragma: no cover
                 sql += "clave = %s "
             else:
                 sql += "clave = ?"
 
             valores = (clave, codigo)
         else:
-            if self.base == "mysql":
+            if self.base == "mysql":  # pragma: no cover
                 sql += " nombres = %s, clave = %s "
             else:
                 sql += " nombres = ?, clave = ?"
 
             valores = (nombre, clave, codigo)
 
-        if self.base == "mysql":
+        if self.base == "mysql":  # pragma: no cover
             sql += "WHERE id_cliente = %s"
         else:
             sql += "WHERE id_cliente = ?"
@@ -76,7 +76,7 @@ class DBAfiliado(Conexion):
         return rst
 
     def get_fecha(self, id_cliente):
-        if self.base == "mysql":
+        if self.base == "mysql":  # pragma: no cover
             sql = "SELECT fecha_vencimiento FROM USUARIO WHERE id_cliente = %s"
         else:
             sql = "SELECT fecha_vencimiento FROM USUARIO WHERE id_cliente = ?"

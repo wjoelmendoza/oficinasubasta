@@ -1,9 +1,12 @@
-from flask.ext.testing import TestCase
-
+import unittest
+from server import Servidor
 from recursos.conexion import Conexion
 from recursos.db_afiliado import DBAfiliado
 
-class BaseTest(TestCase):
+class BaseTest(unittest.TestCase):
 
     def create_app(self):
-        app.config.from __future__ import 
+        server = Servidor()
+        server.app.config['TESTING'] = True
+        return server.app
+
