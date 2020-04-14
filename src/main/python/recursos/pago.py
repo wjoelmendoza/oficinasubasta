@@ -23,10 +23,15 @@ class Pago(Resource):
         db_pago = DBPago()
         data = db_pago.codigo_pago(codigo)
 
+        fecha = data[2]
+
+        if type(fecha) == str:  # pragma: no coverage
+            fecha = datetime.fromisoformat(fecha)
+
         respuesta = {
             "id": data[0],
             "monto": data[1],
-            "fecha": data[2].strftime("%Y-%m-%d %H:%M:%S")
+            "fecha": fecha.strftime("%Y-%m-%d %H:%M:%S")
         }
 
         return respuesta
@@ -51,7 +56,7 @@ class Pago(Resource):
 
         if fvigente is not None:
             act = datetime.now()
-            if type(fvigente) == str:
+            if type(fvigente) == str:  # pragma: no coverage
                 fvigente = datetime.fromisoformat(fvigente)
             insertar = act > fvigente
         if not insertar:

@@ -2,12 +2,14 @@ from flask_restful import Resource, reqparse
 from recursos.db_afiliado import DBAfiliado
 from datetime import datetime
 
+
 def is_vigente(fecha):
     act = datetime.now()
     if type(fecha) == str:  # pragma: no coverage
         fecha = datetime.fromisoformat(fecha)
 
     return act < fecha
+
 
 class AfiliadoG(Resource):
     """
@@ -58,7 +60,7 @@ class Afiliado(Resource):
 
     def get(self):
         datos = self.parser.parse_args()
-        jwt = datos['jwt']
+        # jwt = datos['jwt']
         clave = datos['clave']
         codigo = datos['codigo']
 

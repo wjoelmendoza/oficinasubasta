@@ -9,7 +9,7 @@ class DBPago(Conexion):
         sql = """INSERT INTO MEMBRESIA (fecha_pago, fecha_vencimiento, id_cliente,
         id_tipo_doc, monto) VALUES """
 
-        if self.base == "mysql":
+        if self.base == "mysql":  # pragma: no coverage
             sql += "(%s, %s, %s, %s, %s)"
         else:
             sql += "(?, ?, ?, ?, ?)"
@@ -26,7 +26,7 @@ class DBPago(Conexion):
     def codigo_pago(self, codigo):
         sql = """SELECT id_membresia,monto,fecha_pago FROM MEMBRESIA WHERE id_cliente = """
 
-        if self.base == "mysql":
+        if self.base == "mysql":  # pragma: no coverage
             sql += "%s ORDER BY id_membresia DESC LIMIT 1"
         else:
             sql += "? ORDER BY id_membresia DESC LIMIT 1"
@@ -34,6 +34,6 @@ class DBPago(Conexion):
         valores = (codigo, )
         self._cursor.execute(sql, valores)
         respuesta = self._cursor.fetchall()
-        if len(respuesta):
+        if len(respuesta):  # pragma: no coverage
             respuesta = respuesta[0]
         return respuesta

@@ -1,7 +1,4 @@
-import unittest
 from base import BaseTest
-from recursos.db_afiliado import DBAfiliado
-from recursos.db_pago import DBPago
 
 
 class AfiliadoTest(BaseTest):
@@ -171,17 +168,4 @@ class AfiliadoTest(BaseTest):
         rst = response.get_json()
         self.assertEqual(rst["codigo"], i)
         self.assertEqual(rst["nombre"], "test1")
-
-    def crear_afiliado(self):
-        dba = DBAfiliado()
-        i = dba.crear("test1", "123456")
-        dba.cerrar()
-        return i
-
-    def crear_pago(self, cod):
-        dbp = DBPago()
-        idp, _ = dbp.crear_pago(cod, 1000.00)
-        dbp.cerrar()
-        return idp
-
 
