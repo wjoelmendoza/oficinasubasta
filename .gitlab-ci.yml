@@ -11,6 +11,7 @@ gen_artefacto:
   - pip3 install flask_restful
   - pip3 install mysql-connector
   - pip3 install python-dateutil
+  - pip3 install pyjwt
   - pyb
   - mkdir artefactos
   - cp -r target/dist/Oficina*/dist artefactos/

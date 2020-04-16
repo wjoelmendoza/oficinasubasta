@@ -10,7 +10,7 @@ use_plugin("python.coverage")
 
 name = "OficinaSubasta"
 default_task = ["publish", "analyze"]
-version="1.0.0"
+version="2.0.dev0"
 
 
 @init
@@ -18,6 +18,7 @@ def set_properties(project):
     project.depends_on("flask")
     project.depends_on("flask_restful")
     project.depends_on("mysql-connector")
+    project.depends_on("pyjwt")
     # project.depends_on("dateutil")
 
     project.set_property("flake8_verbose_output", True)

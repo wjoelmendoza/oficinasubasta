@@ -1,6 +1,8 @@
 from flask_restful import Resource, reqparse
 from recursos.db_afiliado import DBAfiliado
 from datetime import datetime
+import jwt
+
 
 
 def is_vigente(fecha):
@@ -9,6 +11,26 @@ def is_vigente(fecha):
         fecha = datetime.fromisoformat(fecha)
 
     return act < fecha
+
+def validar_jwt(token, funcion):
+    public = """-----BEGIN PUBLIC KEY-----
+MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHQqwPUM9iZq8LfcX8HxeeLMrq4J
+i88Bgn0kEpeWu3FZTecfcvDhhbSq1ucJeIPSzVpIMRVaQVITKCHYrGWJiuqajgsJ
+rk3opdGfBqeaHJh+b+NkP9X1soaI0shCi5UjqiJVAl286DXUmMvVnDsdyM+Vgw71
+ksfpXkKpi2R9/nilAgMBAAE=
+-----END PUBLIC KEY-----"""
+    payload = jwt.decode(token, public, algorithms='RS256')
+    exp = datetime.fromtimestamp(payload["exp"])
+    f_act = datetime.now()
+    if exp < f_act:  # pragma: no cover
+        return 403
+
+    scope = payload["scope"]
+    c = scope.count(funcion)
+    if c == 0:  # pragma: no cover
+        return 401
+
+    return 200
 
 
 class AfiliadoG(Resource):
@@ -19,6 +41,11 @@ class AfiliadoG(Resource):
     def get(self, jwt, codigo, clave):
         if codigo is None or clave is None or jwt is None:
             return {}, 406
+
+        estado = validar_jwt(jwt, "afiliado.get")
+
+        if estado != 200: #  pragma: no cover
+            return {}, estado
 
         db_afiliado = DBAfiliado()
         rst = db_afiliado.login(codigo)
@@ -60,9 +87,14 @@ class Afiliado(Resource):
 
     def get(self):
         datos = self.parser.parse_args()
-        # jwt = datos['jwt']
+        jwt = datos['jwt']
         clave = datos['clave']
         codigo = datos['codigo']
+
+        # validando token
+        estado = validar_jwt(jwt, "afiliado.get")
+        if estado != 200:  # pragma: no cover
+            return {}, estado
 
         if clave is None or codigo is None:
             return {}, 406
@@ -95,6 +127,12 @@ class Afiliado(Resource):
         pw = datos["clave"]
         nombre = datos["nombre"]
 
+        # validando jwt
+        jwt = datos["jwt"]
+        estado = validar_jwt(jwt, "afiliado.post")
+        if estado != 200:  # pragma: no cover
+            return {}, estado
+
         if pw is None or nombre is None:
             return {"msg": "Not acceptable"}, 406
 
@@ -115,6 +153,12 @@ class Afiliado(Resource):
 
         if codigo is None:
             return {}, 406
+
+        # validando jwt
+        jwt = datos['jwt']
+        estado = validar_jwt(jwt, "afiliado.put")
+        if estado != 200:  #  pragma: no cover
+            return {}, estado
 
         nombre = datos['nombre']
         clave = datos['clave']
