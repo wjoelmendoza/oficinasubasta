@@ -4,7 +4,6 @@ from datetime import datetime
 import jwt
 
 
-
 def is_vigente(fecha):
     act = datetime.now()
     if type(fecha) == str:  # pragma: no coverage

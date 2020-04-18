@@ -2,6 +2,28 @@ from flask_restful import Resource, reqparse
 from recursos.db_pago import DBPago
 from recursos.db_afiliado import DBAfiliado
 from datetime import datetime
+import jwt
+
+
+def validar_jwt(token, funcion):
+    public = """-----BEGIN PUBLIC KEY-----
+MIGeMA0GCSqGSIb3DQEBAQUAA4GMADCBiAKBgHQqwPUM9iZq8LfcX8HxeeLMrq4J
+i88Bgn0kEpeWu3FZTecfcvDhhbSq1ucJeIPSzVpIMRVaQVITKCHYrGWJiuqajgsJ
+rk3opdGfBqeaHJh+b+NkP9X1soaI0shCi5UjqiJVAl286DXUmMvVnDsdyM+Vgw71
+ksfpXkKpi2R9/nilAgMBAAE=
+-----END PUBLIC KEY-----"""
+    payload = jwt.decode(token, public, algorithms='RS256')
+    exp = datetime.fromtimestamp(payload["exp"])
+    f_act = datetime.now()
+    if exp < f_act:  # pragma: no cover
+        return 403
+
+    scope = payload["scope"]
+    c = scope.count(funcion)
+    if c == 0:  # pragma: no cover
+        return 401
+
+    return 200
 
 
 class Pago(Resource):
@@ -14,7 +36,13 @@ class Pago(Resource):
 
     def get(self):
         datos = self.parser.parse_args()
+        jwt = datos['jwt']
         codigo = datos['codigo']
+
+        # valido token jwt
+        estado = validar_jwt(jwt, "pago.get")
+        if estado != 200:  # pragma: no coverage
+            return {}, estado
 
         dato = validar_usuario(codigo)
         if len(dato) == 0:
@@ -41,6 +69,11 @@ class Pago(Resource):
         jwt = datos['jwt']
         cod = datos['codigo']
         monto = datos['monto']
+
+        # validando jwt
+        estado = validar_jwt(jwt, "afiliado.post")
+        if estado != 200:  # pragma: no coverage
+            return {}, estado
 
         if jwt is None or cod is None or monto is None:
             return {"msg": "Not accepted"}, 406
