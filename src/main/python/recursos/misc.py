@@ -1,4 +1,5 @@
 from datetime import datetime
+from jwt.exceptions import InvalidSignatureError
 import jwt
 
 public = """-----BEGIN PUBLIC KEY-----
@@ -21,16 +22,19 @@ def cargar_llave():  # pragma: no cover
 
 def validar_jwt(token, funcion):
     global public
-    payload = jwt.decode(token, public, algorithms='RS256')
-    exp = datetime.fromtimestamp(payload["exp"])
-    f_act = datetime.now()
-    if exp < f_act:  # pragma: no cover
+    try:
+        payload = jwt.decode(token, public, algorithms='RS256')
+        exp = datetime.fromtimestamp(payload["exp"])
+        f_act = datetime.now()
+        if exp < f_act:  # pragma: no cover
+            return 403
+
+        scope = payload["scope"]
+        c = scope.count(funcion)
+
+        if c == 0:  # pragma no cover
+            return 401
+
+        return 200
+    except InvalidSignatureError:  # pragma: no cover
         return 403
-
-    scope = payload["scope"]
-    c = scope.count(funcion)
-
-    if c == 0:  # pragma no cover
-        return 401
-
-    return 200

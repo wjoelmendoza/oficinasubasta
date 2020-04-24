@@ -10,7 +10,7 @@ use_plugin("python.coverage")
 
 name = "OficinaSubasta"
 default_task = ["publish", "analyze"]
-version="2.0.dev0"
+version="2.0.1"
 
 
 @init
