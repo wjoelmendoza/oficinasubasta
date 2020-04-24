@@ -6,22 +6,22 @@ class AfiliadoTest(BaseTest):
     def test_get_406(self):
         client = self.create_app().test_client()
         jwt = self.get_token()
-        response = client.get(f'/afiliado?jwt={jwt}')
+        response = client.get(f'/Afiliado?jwt={jwt}')
         status = response.status
         self.assertTrue(status.count("406") >= 1)
 
-        response = client.get(f'/afiliado?jwt={jwt}&password=123456')
+        response = client.get(f'/Afiliado?jwt={jwt}&password=123456')
         status = response.status
         self.assertTrue(status.count("406") >= 1)
 
-        response = client.get(f'/afiliado?jwt={jwt}&codigo=123456')
+        response = client.get(f'/Afiliado?jwt={jwt}&codigo=123456')
         status = response.status
         self.assertTrue(status.count("406") >= 1)
 
     def test_get_404(self):
         client = self.create_app().test_client()
         jwt = self.get_token()
-        response = client.get(f'/afiliado?jwt={jwt}&codigo=123456\
+        response = client.get(f'/Afiliado?jwt={jwt}&codigo=123456\
         &password=123456')
         status = response.status
         self.assertTrue(status.count("404") >= 1)
@@ -30,7 +30,7 @@ class AfiliadoTest(BaseTest):
         client = self.create_app().test_client()
         codigo = self.crear_afiliado()
         jwt = self.get_token()
-        rsrc = f"/afiliado?jwt={jwt}&codigo={codigo}&password=123"
+        rsrc = f"/Afiliado?jwt={jwt}&codigo={codigo}&password=123"
         response = client.get(rsrc)
         status = response.status
         self.assertTrue(status.count("401") >= 1)
@@ -39,7 +39,7 @@ class AfiliadoTest(BaseTest):
         client = self.create_app().test_client()
         codigo = self.crear_afiliado()
         jwt = self.get_token()
-        rsrc = f"/afiliado?jwt={jwt}&codigo={codigo}&password=123456"
+        rsrc = f"/Afiliado?jwt={jwt}&codigo={codigo}&password=123456"
         response = client.get(rsrc)
 
         rst = response.get_json()
@@ -52,7 +52,7 @@ class AfiliadoTest(BaseTest):
         client = self.create_app().test_client()
         codigo = self.crear_afiliado()
         self.crear_pago(codigo)
-        rsrc = f"/afiliado?jwt={jwt}&codigo={codigo}&password=123456"
+        rsrc = f"/Afiliado?jwt={jwt}&codigo={codigo}&password=123456"
         response = client.get(rsrc)
 
         rst = response.get_json()
@@ -65,7 +65,7 @@ class AfiliadoTest(BaseTest):
         client = self.create_app().test_client()
         codigo = self.crear_afiliado()
         self.crear_pago(codigo)
-        rsrc = f"/afiliado/{jwt}/{codigo}/123456"
+        rsrc = f"/Afiliado/{jwt}/{codigo}/123456"
         response = client.get(rsrc)
 
         rst = response.get_json()
@@ -80,7 +80,7 @@ class AfiliadoTest(BaseTest):
             "nombre": "Test1"
         }
 
-        response = client.post("/afiliado", data=datos)
+        response = client.post("/Afiliado", data=datos)
         status = response.status
 
         self.assertTrue(status.count("406") >= 1)
@@ -93,7 +93,7 @@ class AfiliadoTest(BaseTest):
             "password": "123456"
         }
 
-        response = client.post("/afiliado", data=datos)
+        response = client.post("/Afiliado", data=datos)
         rst = response.get_json()
 
         self.assertEqual(datos["nombre"], rst["nombre"])
@@ -106,7 +106,7 @@ class AfiliadoTest(BaseTest):
             "jwt": self.get_token()
         }
 
-        response = client.put("/afiliado", data=datos)
+        response = client.put("/Afiliado", data=datos)
 
         status = response.status
 
@@ -119,7 +119,7 @@ class AfiliadoTest(BaseTest):
             "codigo": 2
         }
 
-        response = client.put("/afiliado", data=datos)
+        response = client.put("/Afiliado", data=datos)
 
         status = response.status
 
@@ -133,7 +133,7 @@ class AfiliadoTest(BaseTest):
             "codigo": 666
         }
 
-        response = client.put("/afiliado", data=datos)
+        response = client.put("/Afiliado", data=datos)
 
         status = response.status
 
@@ -150,7 +150,7 @@ class AfiliadoTest(BaseTest):
             "codigo": i
         }
 
-        response = client.put("/afiliado", data=datos)
+        response = client.put("/Afiliado", data=datos)
 
         rst = response.get_json()
         self.assertEqual(rst["codigo"], i)
@@ -169,7 +169,7 @@ class AfiliadoTest(BaseTest):
             "codigo": i
         }
 
-        response = client.put("/afiliado", data=datos)
+        response = client.put("/Afiliado", data=datos)
 
         rst = response.get_json()
         self.assertEqual(rst["codigo"], i)

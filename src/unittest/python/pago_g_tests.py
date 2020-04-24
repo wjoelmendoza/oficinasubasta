@@ -15,7 +15,7 @@ class PagoGTest(BaseTest):
         jwt = self.get_token()
         codigo = self.crear_afiliado()
         pago = self.crear_pago(codigo)
-        rsp = f"/pago/{jwt}/{codigo}"
+        rsp = f"/Pago/{jwt}/{codigo}"
         response = client.get(rsp)
         rsp = response.get_json()
 
