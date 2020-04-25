@@ -80,6 +80,16 @@ class Conexion(object):
                 ON UPDATE NO ACTION
             )""")
 
+        try:  # pragma: no cover
+            cursor.execute('INSERT INTO ROL VALUES (1,"CLIENTE"), (2,"EMPLEADO")')
+            cursor.execute('''INSERT INTO TIPO_DOCUMENTO VALUES
+                              (1,"BOLETA_BANCO"), (2,"RECIBO")''')
+            cursor.execute('''INSERT INTO USUARIO(nombres, clave, id_rol)
+                              VALUES ("administrador", "123456", 2)''')
+        except sqlite3.IntegrityError:
+            pass
+
+
         try:
             cursor.execute("""
                 CREATE TRIGGER  v_membresia_insert AFTER INSERT ON MEMBRESIA

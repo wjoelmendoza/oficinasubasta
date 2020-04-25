@@ -3,17 +3,17 @@ from recursos.conexion import Conexion
 
 class DBAfiliado(Conexion):
 
-    def login(self, codigo):
+    def login(self, codigo, tipo=1):
         sql = """SELECT nombres, fecha_vencimiento, clave
         FROM USUARIO
         WHERE id_cliente = """
 
         if self.base == "mysql":  # pragma: no cover
-            sql += "%s"
+            sql += "%s AND id_rol = %s"
         else:
-            sql += "?"
+            sql += "? AND id_rol = ?"
 
-        vals = (codigo, )
+        vals = (codigo, tipo)
 
         self._cursor.execute(sql, vals)
         rst = self._cursor.fetchall()
@@ -23,7 +23,7 @@ class DBAfiliado(Conexion):
 
         return rst
 
-    def crear(self, nombre, clave):
+    def crear(self, nombre, clave, tipo=1):
         sql = """INSERT INTO USUARIO (nombres, clave, id_rol)
         VALUES """
         if self.base == "mysql":  # pragma: no cover
@@ -31,7 +31,7 @@ class DBAfiliado(Conexion):
         else:
             sql += "(?, ?, ?)"
 
-        vals = (nombre, clave, 1)
+        vals = (nombre, clave, tipo)
         self._cursor.execute(sql, vals)
         self._mydb.commit()
         return self._cursor.lastrowid
@@ -77,9 +77,11 @@ class DBAfiliado(Conexion):
 
     def get_fecha(self, id_cliente):
         if self.base == "mysql":  # pragma: no cover
-            sql = "SELECT fecha_vencimiento, nombres FROM USUARIO WHERE id_cliente = %s"
+            sql = """SELECT fecha_vencimiento, nombres
+                     FROM USUARIO WHERE id_cliente = %s"""
         else:
-            sql = "SELECT fecha_vencimiento, nombres FROM USUARIO WHERE id_cliente = ?"
+            sql = """SELECT fecha_vencimiento, nombres FROM
+                     USUARIO WHERE id_cliente = ?"""
 
         cod = (id_cliente, )
 

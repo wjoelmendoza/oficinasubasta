@@ -50,9 +50,9 @@ zBMS8dZ2SdC/V54ORyXexw+5Hy8UkXZCco1i8umMIw==
         server.app.config['TESTING'] = True
         return server.app
 
-    def crear_afiliado(self):
+    def crear_afiliado(self, tipo=1):
         dba = DBAfiliado()
-        i = dba.crear("test1", "123456")
+        i = dba.crear("test1", "123456", tipo=tipo)
         dba.cerrar()
         return i
 
