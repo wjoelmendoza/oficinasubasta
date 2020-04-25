@@ -25,11 +25,12 @@ class DBAfiliadoTest(unittest.TestCase):
     def test_login(self):
         nombre = "test1"
         clave = "123456"
-        codigo = 1
 
         Conexion.base = "sqlite"
 
         db_afiliado = DBAfiliado()
+
+        codigo = db_afiliado.crear(nombre, clave)
 
         rst = db_afiliado.login(codigo)
         db_afiliado.cerrar()

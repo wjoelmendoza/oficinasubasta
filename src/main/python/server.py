@@ -4,6 +4,7 @@ from flask_restful import Api
 from recursos.afiliado import AfiliadoG, Afiliado
 from recursos.pago import Pago
 from recursos.pago import PagoG
+from recursos.empleado import Empleado
 from recursos.misc import cargar_llave
 
 
@@ -21,6 +22,7 @@ class Servidor:
         self.api.add_resource(AfiliadoG, '/Afiliado/<string:jwt>/<int:codigo>/<string:clave>')
         self.api.add_resource(Pago, '/Pago')
         self.api.add_resource(PagoG, '/Pago/<string:jwt>/<int:codigo>')
+        self.api.add_resource(Empleado, '/Empleado')
 
     def iniciar(self, host='0.0.0.0', port=8083, debug=True):  # pragma: no cover
         """
