@@ -71,6 +71,7 @@ class PagoTest(BaseTest):
         }
 
         response = client.post("/Pago", data=datos)
+        response = client.post("/Pago", data=datos)
         status = response.status
         print("pre assert")
         print(f"estado: {status}")
