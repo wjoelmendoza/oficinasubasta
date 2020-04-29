@@ -70,7 +70,7 @@ class Pago(Resource):
 
         insertar = True
         fvigente = dato[0]
-        print(fvigente)
+        print(cod)
         if fvigente is not None:
             act = datetime.now()
             print(type(fvigente))
