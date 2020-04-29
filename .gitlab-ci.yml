@@ -13,7 +13,7 @@ gen_artefacto:
   - pip3 install python-dateutil
   - pip3 install pyjwt
   - pyb
-  - cat target/reports/TEST-pybuilder.remote.server_tests.AfiliadoTest-*.xml
+  - ls -l
   - mkdir artefactos
   - cp -r target/reports/* artefactos/
   artifacts:

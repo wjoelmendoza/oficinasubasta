@@ -7,7 +7,7 @@ class Empleado(Resource):
     def __init__(self):
         location = ("args", "json", "values")
         self.parser = reqparse.RequestParser()
-        self.parser.add_argument('nombre', type=str,location=location)
+        self.parser.add_argument('nombre', type=str, location=location)
         self.parser.add_argument('password', type=str, dest='clave',
                                  required=False, location=location)
         self.parser.add_argument('codigo', type=int, required=False,
@@ -18,7 +18,7 @@ class Empleado(Resource):
         clave = datos['clave']
         codigo = datos['codigo']
 
-        if clave  is None or codigo is None:
+        if clave is None or codigo is None:
             return {}, 406
 
         db_afiliado = DBAfiliado()

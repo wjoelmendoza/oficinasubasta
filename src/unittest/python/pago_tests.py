@@ -27,7 +27,7 @@ class PagoTest(BaseTest):
         client = self.create_app().test_client()
         datos = {
             "jwt": self.get_token(),
-            "codigo": 100
+            "codigo": "100"
         }
 
         response = client.post("/Pago", data=datos)
@@ -38,7 +38,7 @@ class PagoTest(BaseTest):
         client = self.create_app().test_client()
         datos = {
             "jwt": self.get_token(),
-            "codigo": 100,
+            "codigo": "100",
             "monto": 400
         }
 
@@ -50,7 +50,7 @@ class PagoTest(BaseTest):
         client = self.create_app().test_client()
         datos = {
             "jwt": self.get_token(),
-            "codigo": 100,
+            "codigo": "100",
             "monto": 1000
         }
 
@@ -81,6 +81,8 @@ class PagoTest(BaseTest):
     def test_post(self):
         client = self.create_app().test_client()
         idcliente = self.crear_afiliado()
+
+        idcliente = str(idcliente)
 
         datos = {
             "jwt": self.get_token(),

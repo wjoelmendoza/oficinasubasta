@@ -17,11 +17,6 @@ class DBAfiliadoTest(unittest.TestCase):
         db_afiliado.cerrar()
         self.assertNotEqual(i, 0)
 
-        db_afiliado = DBAfiliado()
-        i = db_afiliado.crear(nombre, clave)
-        db_afiliado.cerrar()
-        self.assertNotEqual(i, 0)
-
     def test_login(self):
         nombre = "test1"
         clave = "123456"
@@ -48,5 +43,6 @@ class DBAfiliadoTest(unittest.TestCase):
 
         db_afiliado = DBAfiliado()
         rst = db_afiliado.modificar(codigo, nombre, clave)
+        db_afiliado.cerrar()
 
         self.assertNotEqual(len(rst), 0)
