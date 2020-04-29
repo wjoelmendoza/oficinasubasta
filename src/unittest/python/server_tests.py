@@ -56,6 +56,7 @@ class AfiliadoTest(BaseTest):
         response = client.get(rsrc)
 
         rst = response.get_json()
+        print(rst["vigente"])
         self.assertEqual(codigo, rst['codigo'])
         self.assertEqual("test1", rst["nombre"])
         self.assertEqual(True, rst["vigente"])
