@@ -37,11 +37,11 @@ class DBAfiliadoTest(unittest.TestCase):
     def test_modificar(self):
         nombre = "Carlos Mencos"
         clave = "545454"
-        codigo = 2
 
         Conexion.base = "sqlite"
 
         db_afiliado = DBAfiliado()
+        codigo = db_afiliado.crear(nombre, clave)
         rst = db_afiliado.modificar(codigo, nombre, clave)
         db_afiliado.cerrar()
 

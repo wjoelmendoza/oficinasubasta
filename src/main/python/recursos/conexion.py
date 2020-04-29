@@ -4,7 +4,7 @@ import sqlite3
 
 class Conexion(object):
     creada = False
-    base = "mysql"
+    base = "sqlite"
 
     def __init__(self):
         """
