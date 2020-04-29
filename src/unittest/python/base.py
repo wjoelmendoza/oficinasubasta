@@ -59,5 +59,6 @@ zBMS8dZ2SdC/V54ORyXexw+5Hy8UkXZCco1i8umMIw==
     def crear_pago(self, cod):
         dbp = DBPago()
         idp, fecha = dbp.crear_pago(cod, 1000.00)
+        print(f"pago: {idp}")
         dbp.cerrar()
         return idp, fecha
