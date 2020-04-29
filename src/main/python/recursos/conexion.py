@@ -89,7 +89,6 @@ class Conexion(object):
         except sqlite3.IntegrityError:
             pass
 
-
         try:
             cursor.execute("""
                 CREATE TRIGGER  v_membresia_insert AFTER INSERT ON MEMBRESIA
