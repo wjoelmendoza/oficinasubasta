@@ -97,4 +97,3 @@ def validar_usuario(codigo):
     dato = db_afiliado.get_fecha(codigo)
     db_afiliado.cerrar()
     return dato
-
