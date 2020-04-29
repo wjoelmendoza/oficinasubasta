@@ -88,4 +88,3 @@ class EmpleadoTest(BaseTest):
         rst = response.get_json()
         self.assertEqual(rst["codigo"], i)
         self.assertEqual(rst["nombre"], "incognito")
-        
