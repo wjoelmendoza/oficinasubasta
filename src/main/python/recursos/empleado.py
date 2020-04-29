@@ -23,11 +23,12 @@ class Empleado(Resource):
 
         db_afiliado = DBAfiliado()
         rst = db_afiliado.login(codigo, tipo=2)
+        db_afiliado.cerrar()
 
         if len(rst) == 0:
             return {}, 404
 
-        if clave != rst[2]:  # pragma: no cover
+        if clave != rst[2]:  # pragma: no cover=
             return {}, 401
 
         rst = {
@@ -47,6 +48,7 @@ class Empleado(Resource):
 
         db_afiliado = DBAfiliado()
         id_emp = db_afiliado.crear(nombre, clave, tipo=2)
+        db_afiliado.cerrar()
 
         rst = {
             "codigo": id_emp,
@@ -71,6 +73,7 @@ class Empleado(Resource):
         db_afiliado = DBAfiliado()
 
         data = db_afiliado.modificar(codigo, nombre, clave)
+        db_afiliado.cerrar()
 
         if len(data) == 0:  # pragma: no cover
             return {}, 404
