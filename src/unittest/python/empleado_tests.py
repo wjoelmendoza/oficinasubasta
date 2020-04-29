@@ -18,6 +18,7 @@ class EmpleadoTest(BaseTest):
         client = self.create_app().test_client()
         response = client.get("/Empleado?codigo=1&password=1234586")
         status = response.status
+        print(status)
         self.assertTrue(status.count("401") >= 1)
 
     def test_get(self):
