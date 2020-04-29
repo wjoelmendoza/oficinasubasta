@@ -62,6 +62,7 @@ class PagoTest(BaseTest):
         client = self.create_app().test_client()
         idcliente = self.crear_afiliado()
         self.crear_pago(idcliente)
+        idcliente = str(idcliente)
 
         datos = {
             "jwt": self.get_token(),

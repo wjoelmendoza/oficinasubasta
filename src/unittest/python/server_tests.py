@@ -52,8 +52,8 @@ class AfiliadoTest(BaseTest):
         jwt = self.get_token()
         client = self.create_app().test_client()
         codigo = self.crear_afiliado()
-        codigo = str(codigo)
         self.crear_pago(codigo)
+        codigo = str(codigo)
         rsrc = f"/Afiliado?jwt={jwt}&codigo={codigo}&password=123456"
         response = client.get(rsrc)
 
