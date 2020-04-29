@@ -73,7 +73,7 @@ class PagoTest(BaseTest):
         response = client.post("/Pago", data=datos)
         status = response.status
         print("pre assert")
-        print("estado: {status}")
+        print(f"estado: {status}")
         self.assertTrue(status.count("406") >= 1)
         print('post assert')
 
