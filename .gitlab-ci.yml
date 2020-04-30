@@ -14,7 +14,7 @@ gen_artefacto:
   - pip3 install pyjwt
   - pyb
   - mkdir artefactos
-  - cp -r target/dist/Oficina*/dist artefactos/
+  - cp -r target/reports/* artefactos/
   artifacts:
     paths:
       - artefactos
