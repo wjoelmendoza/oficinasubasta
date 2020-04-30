@@ -93,22 +93,3 @@ def validar_usuario(codigo):
     dato = db_afiliado.get_fecha(codigo)
     db_afiliado.cerrar()
     return dato
-
-
-class PagoG(Resource):
-    def get(self, jwt, codigo):
-        dato = validar_usuario(codigo)
-        if len(dato) == 0:
-            return {"msg": "Not found"}, 404
-
-        db_pago = DBPago()
-        data = db_pago.codigo_pago(codigo)
-
-        respuesta = {
-            "id": data[0],
-            "monto": data[1],
-            "fecha": str(data[2])
-        }
-
-        return respuesta
-
