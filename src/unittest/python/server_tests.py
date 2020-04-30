@@ -61,21 +61,6 @@ class AfiliadoTest(BaseTest):
         self.assertEqual("test1", rst["nombre"])
         self.assertEqual(True, rst["vigente"])
 
-    def test_get_vigente(self):
-        jwt = self.get_token()
-        client = self.create_app().test_client()
-        codigo = self.crear_afiliado()
-        cod_p,_ = self.crear_pago(codigo)
-        print(cod_p)
-
-        rsrc = f"/Afiliado/{jwt}/{codigo}/123456"
-        response = client.get(rsrc)
-
-        rst = response.get_json()
-        self.assertEqual(codigo, rst['codigo'])
-        self.assertEqual("test1", rst["nombre"])
-        # self.assertEqual(True, rst["vigente"])
-
     def test_post_406(self):
         client = self.create_app().test_client()
         datos = {

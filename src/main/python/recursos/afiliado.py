@@ -12,45 +12,6 @@ def is_vigente(fecha):
     return act < fecha
 
 
-class AfiliadoG(Resource):
-    """
-    Esta clase maneja los recursos del afiliado
-    """
-
-    def get(self, jwt, codigo, clave):
-        if codigo is None or clave is None or jwt is None:
-            return {}, 406
-
-        estado = validar_jwt(jwt, "afiliado.get")
-
-        if estado != 200:  # pragma: no cover
-            return {}, estado
-
-        db_afiliado = DBAfiliado()
-        rst = db_afiliado.login(codigo)
-        db_afiliado.cerrar()
-
-        if len(rst) == 0:
-            return {}, 404
-
-        if clave != rst[2]:
-            return {}, 401
-
-        vigente = rst[1]
-        if vigente is None:
-            vigente = False
-        else:
-            vigente = is_vigente(vigente)
-
-        rst = {
-            "codigo": codigo,
-            "nombre": rst[0],
-            "vigente": vigente
-        }
-
-        return rst
-
-
 class Afiliado(Resource):
 
     def __init__(self):
