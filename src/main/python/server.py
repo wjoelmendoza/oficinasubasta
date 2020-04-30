@@ -24,7 +24,7 @@ class Servidor:
         self.api.add_resource(PagoG, '/Pago/<string:jwt>/<int:codigo>')
         self.api.add_resource(Empleado, '/Empleado')
 
-    def iniciar(self, host='0.0.0.0', port=8083, debug=True):  # pragma: no cover
+    def iniciar(self, host='0.0.0.0', port=8080, debug=True):  # pragma: no cover
         """
         Se encarga de inicias el servidor web
         """
