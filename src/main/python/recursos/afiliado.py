@@ -22,7 +22,7 @@ class Afiliado(Resource):
         self.parser.add_argument('nombre', type=str, required=False)
         self.parser.add_argument('password', type=str, dest='clave',
                                  required=False, location=location)
-        self.parser.add_argument('codigo', type=int, required=False,
+        self.parser.add_argument('codigo', type=str, required=False,
                                  location=location)
 
     def get(self):
@@ -39,6 +39,8 @@ class Afiliado(Resource):
         if clave is None or codigo is None:
             return {}, 406
 
+        codigo = int(codigo)
+
         db_afiliado = DBAfiliado()
         rst = db_afiliado.login(codigo)
 
@@ -54,6 +56,7 @@ class Afiliado(Resource):
         else:
             vigente = is_vigente(vigente)
 
+        codigo = str(codigo)
         rst = {
             "codigo": codigo,
             "nombre": rst[0],
@@ -79,6 +82,7 @@ class Afiliado(Resource):
         db_afiliado = DBAfiliado()
         id_af = db_afiliado.crear(nombre, pw)
         db_afiliado.cerrar()
+        id_af = str(id_af)
         rst = {
             "codigo": id_af,
             "nombre": datos['nombre'],
@@ -94,6 +98,7 @@ class Afiliado(Resource):
         if codigo is None:
             return {}, 406
 
+        codigo = str(codigo)
         # validando jwt
         jwt = datos['jwt']
         estado = validar_jwt(jwt, "afiliado.put")
@@ -120,6 +125,8 @@ class Afiliado(Resource):
             vigente = False
         else:
             vigente = is_vigente(vigente)
+
+        codigo = str(codigo)
 
         rst = {
             "codigo": codigo,

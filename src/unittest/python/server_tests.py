@@ -38,6 +38,7 @@ class AfiliadoTest(BaseTest):
     def test_get_sp(self):
         client = self.create_app().test_client()
         codigo = self.crear_afiliado()
+        codigo = str(codigo)
         jwt = self.get_token()
         rsrc = f"/Afiliado?jwt={jwt}&codigo={codigo}&password=123456"
         response = client.get(rsrc)
@@ -52,11 +53,11 @@ class AfiliadoTest(BaseTest):
         client = self.create_app().test_client()
         codigo = self.crear_afiliado()
         self.crear_pago(codigo)
+        codigo = str(codigo)
         rsrc = f"/Afiliado?jwt={jwt}&codigo={codigo}&password=123456"
         response = client.get(rsrc)
 
         rst = response.get_json()
-        print(rst["vigente"])
         self.assertEqual(codigo, rst['codigo'])
         self.assertEqual("test1", rst["nombre"])
         self.assertEqual(True, rst["vigente"])
@@ -131,6 +132,7 @@ class AfiliadoTest(BaseTest):
         client = self.create_app().test_client()
 
         i = self.crear_afiliado()
+        i = str(i)
 
         datos = {
             "jwt": self.get_token(),
@@ -150,6 +152,7 @@ class AfiliadoTest(BaseTest):
         i = self.crear_afiliado()
 
         self.crear_pago(i)
+        i = str(i)
 
         datos = {
             "jwt": self.get_token(),
