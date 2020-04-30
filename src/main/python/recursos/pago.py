@@ -10,7 +10,7 @@ class Pago(Resource):
         location = ("args", "json", "values")
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('jwt', type=str, required=True, location=location)
-        self.parser.add_argument('codigo', type=str, required=True, location=location)
+        self.parser.add_argument('codigo', type=int, required=True, location=location)
         self.parser.add_argument('monto', type=float, required=False)
 
     def get(self):
@@ -22,8 +22,6 @@ class Pago(Resource):
         estado = validar_jwt(jwt, "pago.get")
         if estado != 200:  # pragma: no coverage
             return {}, estado
-
-        codigo = int(codigo)
 
         dato = validar_usuario(codigo)
         if len(dato) == 0:
@@ -61,9 +59,6 @@ class Pago(Resource):
 
         if monto != 1000:
             return {"msg": "Not accepted"}, 406
-
-        cod = int(cod)
-
         dato = validar_usuario(cod)
         if len(dato) == 0:
             return {"msg": "Not found"}, 404
@@ -76,7 +71,6 @@ class Pago(Resource):
             if type(fvigente) == str:  # pragma: no coverage
                 fvigente = datetime.fromisoformat(fvigente)
             insertar = act > fvigente
-
         if not insertar:
             return {"msg": "Not accepted"}, 406
 
@@ -97,3 +91,21 @@ def validar_usuario(codigo):
     dato = db_afiliado.get_fecha(codigo)
     db_afiliado.cerrar()
     return dato
+
+
+class PagoG(Resource):
+    def get(self, jwt, codigo):
+        dato = validar_usuario(codigo)
+        if len(dato) == 0:
+            return {"msg": "Not found"}, 404
+
+        db_pago = DBPago()
+        data = db_pago.codigo_pago(codigo)
+
+        respuesta = {
+            "id": data[0],
+            "monto": data[1],
+            "fecha": str(data[2])
+        }
+
+        return respuesta

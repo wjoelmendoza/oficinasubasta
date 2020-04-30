@@ -62,7 +62,6 @@ class PagoTest(BaseTest):
         client = self.create_app().test_client()
         idcliente = self.crear_afiliado()
         self.crear_pago(idcliente)
-        idcliente = str(idcliente)
 
         datos = {
             "jwt": self.get_token(),
@@ -72,7 +71,6 @@ class PagoTest(BaseTest):
 
         response = client.post("/Pago", data=datos)
         status = response.status
-        print(status)
         self.assertTrue(status.count("406") >= 1)
 
     def test_post(self):
