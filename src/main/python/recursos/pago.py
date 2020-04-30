@@ -65,13 +65,12 @@ class Pago(Resource):
 
         insertar = True
         fvigente = dato[0]
-        print(cod)
+
         if fvigente is not None:
             act = datetime.now()
-            print(type(fvigente))
+
             if type(fvigente) == str:  # pragma: no coverage
                 fvigente = datetime.fromisoformat(fvigente)
-                print(type(fvigente))
             insertar = act > fvigente
 
         if not insertar:
@@ -112,3 +111,4 @@ class PagoG(Resource):
         }
 
         return respuesta
+

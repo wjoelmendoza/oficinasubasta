@@ -18,9 +18,10 @@ class EmpleadoTest(BaseTest):
         client = self.create_app().test_client()
         response = client.get("/Empleado?codigo=1&password=1234586")
         status = response.status
+        print(status)
         self.assertTrue(status.count("401") >= 1)
 
-    def test_get_401(self):
+    def test_get(self):
         client = self.create_app().test_client()
         response = client.get("/Empleado?codigo=1&password=123456")
         rst = response.get_json()
@@ -87,4 +88,3 @@ class EmpleadoTest(BaseTest):
         rst = response.get_json()
         self.assertEqual(rst["codigo"], i)
         self.assertEqual(rst["nombre"], "incognito")
-        
