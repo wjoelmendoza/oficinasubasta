@@ -86,6 +86,8 @@ class Conexion(object):
                               (1,"BOLETA_BANCO"), (2,"RECIBO")''')
             cursor.execute('''INSERT INTO USUARIO(nombres, clave, id_rol)
                               VALUES ("administrador", "123456", 2)''')
+
+            self._mydb.commit()
         except sqlite3.IntegrityError:
             pass
 
@@ -98,5 +100,6 @@ class Conexion(object):
                         SET fecha_vencimiento = NEW.fecha_vencimiento
                         WHERE id_cliente = NEW.id_cliente;
                 END""")
+            self._mydb.commit()
         except sqlite3.OperationalError as e:
             print(e)
