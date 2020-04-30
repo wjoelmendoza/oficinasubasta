@@ -15,7 +15,7 @@ gen_artefacto:
   - ls -l
   - pyb
   - mkdir artefactos
-  - cp -r target/reports/* artefactos/
+  - cp -r target/dist/Oficina*/dist artefactos/
   artifacts:
     paths:
       - artefactos
