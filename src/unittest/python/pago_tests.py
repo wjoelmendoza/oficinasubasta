@@ -77,7 +77,6 @@ class PagoTest(BaseTest):
         status = response.status
 
         self.assertTrue(status.count("406") >= 1)
-        print('post assert')
 
     def test_post(self):
         client = self.create_app().test_client()

@@ -10,7 +10,7 @@ class Pago(Resource):
         location = ("args", "json", "values")
         self.parser = reqparse.RequestParser()
         self.parser.add_argument('jwt', type=str, required=True, location=location)
-        self.parser.add_argument('codigo', type=int, required=True, location=location)
+        self.parser.add_argument('codigo', type=str, required=True, location=location)
         self.parser.add_argument('monto', type=float, required=False)
 
     def get(self):
@@ -23,6 +23,7 @@ class Pago(Resource):
         if estado != 200:  # pragma: no coverage
             return {}, estado
 
+        codigo = int(codigo)
         dato = validar_usuario(codigo)
         if len(dato) == 0:
             return {"msg": "Not found"}, 404
@@ -57,6 +58,7 @@ class Pago(Resource):
         if jwt is None or cod is None or monto is None:
             return {"msg": "Not accepted"}, 406
 
+        cod = int(cod)
         if monto != 1000:
             return {"msg": "Not accepted"}, 406
         dato = validar_usuario(cod)
